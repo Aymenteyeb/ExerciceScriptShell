@@ -1,0 +1,26 @@
+#! /bin/csh
+resi=0
+IFS="
+"
+let " resi += `wc -l ligne.txt | awk '{print $1}'` "
+echo 'initial:' $resi >> linecount.txt
+
+i=0
+for i in ligne.txt
+do
+sed -i '1d' "$i" | sed -i '$d' "$i"
+done
+
+resn=0
+IFS="
+"
+let " resn += `wc -l ligne.txt | awk '{print $1}'` "
+echo 'New:' $resn >> linecount.txt
+
+resultat=$(($resi-$resn)) 
+if [ "$resultat" -ge 0 ]
+then echo 'difference:' $resultat >> linecount.txt
+else
+echo 
+exit 1
+fi
